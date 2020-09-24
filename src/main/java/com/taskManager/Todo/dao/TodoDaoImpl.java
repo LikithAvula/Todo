@@ -38,7 +38,7 @@ public class TodoDaoImpl extends JdbcDaoSupport implements TodoDao{
 	
 	@Override
 	public void deleteTask(int id, String userName) {
-		getJdbcTemplate().update("delete from todo where id = ? and userName = ? ", new Integer(id),userName);
+		getJdbcTemplate().update("delete from todo where id = ?", new Integer(id));
 	}
 	
 	
@@ -51,7 +51,6 @@ public class TodoDaoImpl extends JdbcDaoSupport implements TodoDao{
 			task.setTaskName(e.get("discription").toString());
 			task.setStatus((Boolean)e.get("status"));
 			task.setTargetDate(((Date)e.get("targetDate")));
-			task.setUserName(e.get("userName").toString());
 			tasks.add(task);
 		});
 		tasks.sort(Comparator.comparing(Task::getId));	

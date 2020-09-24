@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import com.taskManager.Todo.service.TaskService;
 @RequestMapping()
 public class TaskController {
 
+	private static final Void Void = null;
 	@Autowired
 	TaskService taskService;
 	
@@ -39,9 +42,12 @@ public class TaskController {
 		return addData();
 	}
 	
+	
+	// as per rest api standards put mapping should return OK status
 	@PutMapping("/editTask/{userName}/{id}")
-	public void editTask(@RequestBody Task task, @PathVariable String userName, @PathVariable int id) {
+	public ResponseEntity<Void> editTask(@RequestBody Task task, @PathVariable String userName, @PathVariable int id) {
 		taskService.updateTask(task);
+		return new ResponseEntity<Void>(Void,HttpStatus.OK);
 	}
 	
 	@PostMapping("/addTask/{userName}")
