@@ -30,12 +30,12 @@ public class TaskController {
 	TaskService taskService;
 	
 	
-	@GetMapping("/allTasks/{userName}")
+	@GetMapping("todo/all/{userName}")
 	public List<Task> getAllTasks(@PathVariable String userName) {
 		return addData();		
 	}	
 
-	@DeleteMapping("/deleteTask/{userName}/{id}")
+	@DeleteMapping("todo/delete/{userName}/{id}")
 	//@RequestMapping(value="/deleteTask/{id}", method= {RequestMethod.DELETE,RequestMethod.GET})
 	public List<Task> deleteTask(@PathVariable String userName, @PathVariable int id) {
 		taskService.deleteTask(id,userName);
@@ -44,19 +44,19 @@ public class TaskController {
 	
 	
 	// as per rest api standards put mapping should return OK status
-	@PutMapping("/editTask/{userName}/{id}")
+	@PutMapping("todo/edit/{userName}/{id}")
 	public ResponseEntity<Void> editTask(@RequestBody Task task, @PathVariable String userName, @PathVariable int id) {
 		taskService.updateTask(task);
 		return new ResponseEntity<Void>(Void,HttpStatus.OK);
 	}
 	
-	@PostMapping("/addTask/{userName}")
+	@PostMapping("todo/add/{userName}")
 	public List<Task> addTask(@RequestBody Task task, @PathVariable String userName) {
 		taskService.addTask(task);
 		return addData();
 	}
 	
-	@GetMapping("/task/{userName}/{id}")
+	@GetMapping("todo/{userName}/{id}")
 	public Task taskById(@PathVariable int id, @PathVariable String userName) throws Exception {
 		List<Task> task = new ArrayList<Task>();
 		addData().forEach(e -> {
