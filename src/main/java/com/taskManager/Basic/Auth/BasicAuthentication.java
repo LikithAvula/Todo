@@ -1,5 +1,5 @@
 
-package com.taskManager.Todo.Basic.Auth;
+package com.taskManager.Basic.Auth;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

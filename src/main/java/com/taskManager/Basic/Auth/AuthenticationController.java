@@ -1,4 +1,4 @@
-package com.taskManager.Todo.Basic.Auth;
+package com.taskManager.Basic.Auth;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class AuthenticationController {
 	
-	@GetMapping("/authenticate")
+	@GetMapping("todo/authenticate")
 	public Authentcation AuthorizeUser() {
 		return new Authentcation("user authorized");
 	}
