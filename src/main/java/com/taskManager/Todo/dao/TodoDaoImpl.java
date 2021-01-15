@@ -6,26 +6,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.taskManager.Todo.entitiy.Task;
 
 @Repository("todoDaoImpl")
-public class TodoDaoImpl extends JdbcDaoSupport implements TodoDao{
+public class TodoDaoImpl extends JdbcDaoSupportImpl implements TodoDao{
 
-	@Autowired
-	DataSource dataSource;
-	
-	@PostConstruct
-	void initialize() {
-		setDataSource(dataSource);
-	}
 	
 	
 	@Override
@@ -67,8 +54,11 @@ public class TodoDaoImpl extends JdbcDaoSupport implements TodoDao{
 
 	@Override
 	public void editTask(Task task) {
-		getJdbcTemplate().update("update todo set discription =? , targetDate=?, status=? where id =? ", task.getTaskName(),task.getTargetDate(),task.isStatus(),task.getId());
+		getJdbcTemplate().update("update todo set discription =? , targetDate=?, status=? where id =? ", task.getTaskName(),task.getTargetDate(),task.isStatus(),new Integer(task.getId()));
 	}
+	
+	
+	
 
 
 
