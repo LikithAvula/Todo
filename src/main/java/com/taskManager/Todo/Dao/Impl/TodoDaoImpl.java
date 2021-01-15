@@ -1,4 +1,4 @@
-package com.taskManager.Todo.dao;
+package com.taskManager.Todo.Dao.Impl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.taskManager.Todo.Dao.TodoDao;
 import com.taskManager.Todo.entitiy.Task;
 
 @Repository("todoDaoImpl")

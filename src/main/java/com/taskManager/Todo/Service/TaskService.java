@@ -1,4 +1,4 @@
-package com.taskManager.Todo.service;
+package com.taskManager.Todo.Service;
 
 import java.util.List;
 

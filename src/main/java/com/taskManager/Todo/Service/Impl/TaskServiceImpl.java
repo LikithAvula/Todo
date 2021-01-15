@@ -1,11 +1,12 @@
-package com.taskManager.Todo.service;
+package com.taskManager.Todo.Service.Impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.taskManager.Todo.dao.TodoDao;
+import com.taskManager.Todo.Dao.TodoDao;
+import com.taskManager.Todo.Service.TaskService;
 import com.taskManager.Todo.entitiy.Task;
 
 @Service("taskServiceImpl")

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taskManager.Todo.Service.TaskService;
 import com.taskManager.Todo.entitiy.Task;
-import com.taskManager.Todo.service.TaskService;
 
 
 @CrossOrigin(origins = "http://localhost:4200")

@@ -1,4 +1,4 @@
-package com.taskManager.Todo.dao;
+package com.taskManager.Todo.Dao;
 
 import java.util.List;
 import com.taskManager.Todo.entitiy.Task;
