@@ -18,8 +18,7 @@ public class TodoDaoImpl extends JdbcDaoSupportImpl implements TodoDao{
 	
 	@Override
 	public List<Task> getAllTasks() {
-		List<Map<String,Object>> map = getJdbcTemplate().queryForList("select * from todo");
-		
+		List<Map<String,Object>> map = getJdbcTemplate().queryForList("select * from todo");		
 		return Mapper(map);
 	}
 	

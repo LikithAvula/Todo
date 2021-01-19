@@ -27,7 +27,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthorizedResponseAuthenticationEntryPoint;
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsService jwtUserDetailsService;
 
     @Autowired
     private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
@@ -38,7 +38,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(jwtInMemoryUserDetailsService)
+            .userDetailsService(jwtUserDetailsService)
             .passwordEncoder(passwordEncoderBean());
     }
 
@@ -88,7 +88,17 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
             )
             .and()
             .ignoring()
-            .antMatchers("/h2-console/**/**");//Should not be in Production!
+            .antMatchers("/h2-console/**/**")
+            .and()
+            .ignoring()
+            .antMatchers("/todo/addUser/**/**")
+            .and()
+            .ignoring()
+            .antMatchers(
+            		HttpMethod.POST,
+            		"todo/addUser"            		
+            )
+            ;//Should not be in Production!
     }
 }
 
