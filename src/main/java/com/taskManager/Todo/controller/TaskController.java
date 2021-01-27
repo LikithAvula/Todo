@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.taskManager.Todo.Service.TaskService;
+import com.taskManager.Todo.Service.UserService;
 import com.taskManager.Todo.entitiy.Task;
+import com.taskManager.Todo.entitiy.User;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,18 +32,29 @@ public class TaskController {
 	@Autowired
 	TaskService taskService;
 	
+	@Autowired
+	UserService userService;
+	
 	BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 	
 	@GetMapping("todo/all/{userName}")
 	public List<Task> getAllTasks(@PathVariable String userName) {
-		return addData();		
+		User user = userService.getUserDetails(userName);
+		if(user.getRole().equalsIgnoreCase("admin")) {
+			return taskService.getAllTasksForAdmin(userName);
+		}
+		return taskService.getAllTasks(userName);		
 	}	
 
 	@DeleteMapping("todo/delete/{userName}/{id}")
 	//@RequestMapping(value="/deleteTask/{id}", method= {RequestMethod.DELETE,RequestMethod.GET})
 	public List<Task> deleteTask(@PathVariable String userName, @PathVariable int id) {
 		taskService.deleteTask(id,userName);
-		return addData();
+		User user = userService.getUserDetails(userName);
+		if(user.getRole().equalsIgnoreCase("admin")) {
+			return taskService.getAllTasksForAdmin(userName);
+		}
+		return taskService.getAllTasks(userName);
 	}
 	
 	
@@ -54,14 +67,17 @@ public class TaskController {
 	
 	@PostMapping("todo/add/{userName}")
 	public List<Task> addTask(@RequestBody Task task, @PathVariable String userName) {
+		if(task.getUserName().isEmpty()) {
+			task.setUserName(userName);
+		}
 		taskService.addTask(task);
-		return addData();
+		return taskService.getAllTasks(userName);
 	}
 	
 	@GetMapping("todo/{userName}/{id}")
 	public Task taskById(@PathVariable int id, @PathVariable String userName) throws Exception {
 		List<Task> task = new ArrayList<Task>();
-		addData().forEach(e -> {
+		taskService.getAllTasks(userName).forEach(e -> {
 			if(e.getId() == id) {
 				task.add(e);
 			}
@@ -75,8 +91,5 @@ public class TaskController {
 		}
 	}
 	
-	public List<Task> addData(){
-		return taskService.getAllTasks();
-	}
 	
 }

@@ -16,8 +16,8 @@ public class TaskServiceImpl implements TaskService{
 	TodoDao todoDaoImpl;
 
 	@Override
-	public List<Task> getAllTasks() {
-		return todoDaoImpl.getAllTasks();
+	public List<Task> getAllTasks(String userName) {
+		return todoDaoImpl.getAllTasks(userName);
 	}
 
 	@Override
@@ -40,6 +40,11 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public void addTask(Task task) {
 		todoDaoImpl.addTask(task);
+	}
+
+	@Override
+	public List<Task> getAllTasksForAdmin(String userName) {		
+		return todoDaoImpl.getAllTasksForAdmin(userName);
 	}
 
 }

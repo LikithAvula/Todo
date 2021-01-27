@@ -17,8 +17,8 @@ public class TodoDaoImpl extends JdbcDaoSupportImpl implements TodoDao{
 	
 	
 	@Override
-	public List<Task> getAllTasks() {
-		List<Map<String,Object>> map = getJdbcTemplate().queryForList("select * from todo");		
+	public List<Task> getAllTasks(String userName) {
+		List<Map<String,Object>> map = getJdbcTemplate().queryForList("select * from todo where userName = ?", userName);		
 		return Mapper(map);
 	}
 	
@@ -38,6 +38,7 @@ public class TodoDaoImpl extends JdbcDaoSupportImpl implements TodoDao{
 			task.setTaskName(e.get("discription").toString());
 			task.setStatus((Boolean)e.get("status"));
 			task.setTargetDate(((Date)e.get("targetDate")));
+			task.setUserName(e.get("userName").toString());
 			tasks.add(task);
 		});
 		tasks.sort(Comparator.comparing(Task::getId));	
@@ -47,14 +48,23 @@ public class TodoDaoImpl extends JdbcDaoSupportImpl implements TodoDao{
 
 	@Override
 	public void addTask(Task task) {
-		getJdbcTemplate().update("insert into todo values(?,?,?,?,?)", new Integer(task.getId()), task.getTaskName(),task.isStatus(),
-				task.getTargetDate(),task.getUserName());
+		if(task.getUserName() != null && !task.getUserName().isEmpty() ) {
+			getJdbcTemplate().update("insert into todo values(?,?,?,?,?)", new Integer(task.getId()), task.getTaskName(),task.isStatus(),
+					task.getTargetDate(),task.getUserName());
+		}		
 	}
 
 
 	@Override
 	public void editTask(Task task) {
 		getJdbcTemplate().update("update todo set discription =? , targetDate=?, status=? where id =? ", task.getTaskName(),task.getTargetDate(),task.isStatus(),new Integer(task.getId()));
+	}
+
+
+	@Override
+	public List<Task> getAllTasksForAdmin(String userName) {
+		List<Map<String,Object>> map = getJdbcTemplate().queryForList("select * from todo");		
+		return Mapper(map);
 	}
 	
 	

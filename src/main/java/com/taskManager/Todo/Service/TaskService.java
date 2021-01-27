@@ -6,7 +6,9 @@ import com.taskManager.Todo.entitiy.Task;
 
 
 public interface TaskService {
-	public List<Task> getAllTasks();
+	public List<Task> getAllTasks(String userName);
+	
+	public List<Task> getAllTasksForAdmin(String userName);
 	
 	public Task getTask(int id);
 	
