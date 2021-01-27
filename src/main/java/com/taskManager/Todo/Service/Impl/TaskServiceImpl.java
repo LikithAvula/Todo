@@ -1,11 +1,12 @@
-package com.taskManager.Todo.service;
+package com.taskManager.Todo.Service.Impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.taskManager.Todo.dao.TodoDao;
+import com.taskManager.Todo.Dao.TodoDao;
+import com.taskManager.Todo.Service.TaskService;
 import com.taskManager.Todo.entitiy.Task;
 
 @Service("taskServiceImpl")
@@ -15,8 +16,8 @@ public class TaskServiceImpl implements TaskService{
 	TodoDao todoDaoImpl;
 
 	@Override
-	public List<Task> getAllTasks() {
-		return todoDaoImpl.getAllTasks();
+	public List<Task> getAllTasks(String userName) {
+		return todoDaoImpl.getAllTasks(userName);
 	}
 
 	@Override
@@ -39,6 +40,11 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public void addTask(Task task) {
 		todoDaoImpl.addTask(task);
+	}
+
+	@Override
+	public List<Task> getAllTasksForAdmin(String userName) {		
+		return todoDaoImpl.getAllTasksForAdmin(userName);
 	}
 
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taskManager.Todo.Service.TaskService;
+import com.taskManager.Todo.Service.UserService;
 import com.taskManager.Todo.entitiy.Task;
-import com.taskManager.Todo.service.TaskService;
+import com.taskManager.Todo.entitiy.User;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -23,37 +28,56 @@ import com.taskManager.Todo.service.TaskService;
 @RequestMapping()
 public class TaskController {
 
+	private static final Void Void = null;
 	@Autowired
 	TaskService taskService;
 	
+	@Autowired
+	UserService userService;
 	
-	@GetMapping("/allTasks/{userName}")
+	BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+	
+	@GetMapping("todo/all/{userName}")
 	public List<Task> getAllTasks(@PathVariable String userName) {
-		return addData();		
+		User user = userService.getUserDetails(userName);
+		if(user.getRole().equalsIgnoreCase("admin")) {
+			return taskService.getAllTasksForAdmin(userName);
+		}
+		return taskService.getAllTasks(userName);		
 	}	
 
-	@DeleteMapping("/deleteTask/{userName}/{id}")
+	@DeleteMapping("todo/delete/{userName}/{id}")
 	//@RequestMapping(value="/deleteTask/{id}", method= {RequestMethod.DELETE,RequestMethod.GET})
 	public List<Task> deleteTask(@PathVariable String userName, @PathVariable int id) {
 		taskService.deleteTask(id,userName);
-		return addData();
+		User user = userService.getUserDetails(userName);
+		if(user.getRole().equalsIgnoreCase("admin")) {
+			return taskService.getAllTasksForAdmin(userName);
+		}
+		return taskService.getAllTasks(userName);
 	}
 	
-	@PutMapping("/editTask/{userName}/{id}")
-	public void editTask(@RequestBody Task task, @PathVariable String userName, @PathVariable int id) {
+	
+	// as per rest api standards put mapping should return OK status
+	@PutMapping("todo/edit/{userName}/{id}")
+	public ResponseEntity<Void> editTask(@RequestBody Task task, @PathVariable String userName, @PathVariable int id) {
 		taskService.updateTask(task);
+		return new ResponseEntity<Void>(Void,HttpStatus.OK);
 	}
 	
-	@PostMapping("/addTask/{userName}")
+	@PostMapping("todo/add/{userName}")
 	public List<Task> addTask(@RequestBody Task task, @PathVariable String userName) {
+		if(task.getUserName().isEmpty()) {
+			task.setUserName(userName);
+		}
 		taskService.addTask(task);
-		return addData();
+		return taskService.getAllTasks(userName);
 	}
 	
-	@GetMapping("/task/{userName}/{id}")
+	@GetMapping("todo/{userName}/{id}")
 	public Task taskById(@PathVariable int id, @PathVariable String userName) throws Exception {
 		List<Task> task = new ArrayList<Task>();
-		addData().forEach(e -> {
+		taskService.getAllTasks(userName).forEach(e -> {
 			if(e.getId() == id) {
 				task.add(e);
 			}
@@ -67,8 +91,5 @@ public class TaskController {
 		}
 	}
 	
-	public List<Task> addData(){
-		return taskService.getAllTasks();
-	}
 	
 }

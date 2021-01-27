@@ -2,22 +2,19 @@ package com.taskManager.Todo.entitiy;
 
 import java.util.Date;
 
+
 public class Task {
 	private int id;
 	private String taskName;
 	private boolean status;
 	private Date targetDate;
 	private String userName;
-	
-	public Task() {
-		
+	public int getId() {
+		return id;
 	}
-
-	/*
-	 * public Task(int id, String taskName, boolean status, Date targetDate) {
-	 * super(); this.id = id; this.taskName = taskName; this.status = status;
-	 * this.targetDate = targetDate; }
-	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTaskName() {
 		return taskName;
 	}
@@ -36,18 +33,12 @@ public class Task {
 	public void setTargetDate(Date targetDate) {
 		this.targetDate = targetDate;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 
 }
