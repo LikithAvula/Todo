@@ -45,4 +45,10 @@ public class UserDaoImpl extends JdbcDaoSupportImpl implements UserDao {
 		}
 
 	};
+
+	@Override
+	public void editAccount(User user) {
+		getJdbcTemplate().update("update user set  password=?, dateOdBirth = ? where username = ?", user.getPassword(), user.getDateOfBirth(), user.getUserName());
+		
+	}
 }

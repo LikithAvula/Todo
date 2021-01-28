@@ -29,4 +29,10 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	@Override
+	public User editAccount(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
