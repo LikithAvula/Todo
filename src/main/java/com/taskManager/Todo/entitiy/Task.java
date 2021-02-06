@@ -6,9 +6,21 @@ import java.util.Date;
 public class Task {
 	private int id;
 	private String taskName;
-	private boolean status;
+	private boolean status;	
 	private Date targetDate;
 	private String userName;
+	
+	public Task(int id, String taskName, boolean status, Date targetDate, String userName) {
+		this.id = id;
+		this.taskName = taskName;
+		this.status = status;
+		this.targetDate = targetDate;
+		this.userName = userName;
+	}
+	public Task() {
+		
+	}
+	
 	public int getId() {
 		return id;
 	}

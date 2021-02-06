@@ -1,6 +1,7 @@
 package com.taskManager.Todo.controller;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.taskManager.Todo.Exception.NoRecordFound;
 import com.taskManager.Todo.Service.TaskService;
 import com.taskManager.Todo.Service.UserService;
 import com.taskManager.Todo.entitiy.Task;
@@ -41,7 +43,9 @@ public class TaskController {
 	public List<Task> getAllTasks(@PathVariable String userName) {
 		User user = userService.getUserDetails(userName);
 		if(user.getRole().equalsIgnoreCase("admin")) {
-			return taskService.getAllTasksForAdmin(userName);
+			List<Task> tasks =  taskService.getAllTasksForAdmin(userName);
+			tasks.sort(Comparator.nullsFirst(Comparator.comparing(Task::getUserName, Comparator.nullsFirst(Comparator.naturalOrder()))));
+			return tasks;
 		}
 		return taskService.getAllTasks(userName);		
 	}	
@@ -87,7 +91,7 @@ public class TaskController {
 			return task.get(0);
 		}
 		else {
-			throw new Exception("Record Not Found");
+			throw new NoRecordFound("Record Not Found");
 		}
 	}
 	

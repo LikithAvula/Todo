@@ -15,6 +15,10 @@ public class TaskServiceImpl implements TaskService{
 	@Autowired
 	TodoDao todoDaoImpl;
 
+	public void setTodoDaoImpl(TodoDao todoDaoImpl) {
+		this.todoDaoImpl = todoDaoImpl;
+	}
+
 	@Override
 	public List<Task> getAllTasks(String userName) {
 		return todoDaoImpl.getAllTasks(userName);

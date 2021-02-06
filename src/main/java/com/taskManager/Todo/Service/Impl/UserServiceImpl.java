@@ -30,9 +30,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User editAccount(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void editAccount(User user) {
+		userDao.editAccount(user);
 	}
 
 }
